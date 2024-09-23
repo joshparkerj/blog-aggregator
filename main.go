@@ -36,6 +36,9 @@ func main() {
 		}
 	})
 
+	mux.HandleFunc("/v1/healthz", readiness)
+	mux.HandleFunc("/v1/err", respondToError)
+
 	server := http.Server{
 		Handler: mux,
 		Addr:    fmt.Sprintf(":%v", port),
