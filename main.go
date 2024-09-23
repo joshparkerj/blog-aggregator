@@ -21,7 +21,19 @@ func main() {
 
 	mux.HandleFunc("/smiley", func(sponse http.ResponseWriter, quest *http.Request) {
 		// sponse.Write([]byte("say cheese!"))
-		respondWithJson(sponse, 200, GlobalTestPayload)
+		err := respondWithJson(sponse, 201, GlobalTestPayload)
+		if err != nil {
+			fmt.Println("got an error")
+			fmt.Println(err)
+		}
+	})
+
+	mux.HandleFunc("/smiley-error", func(sponse http.ResponseWriter, quest *http.Request) {
+		err := respondWithError(sponse, 400, "this was an error")
+		if err != nil {
+			fmt.Println("got an error")
+			fmt.Println(err)
+		}
 	})
 
 	server := http.Server{
