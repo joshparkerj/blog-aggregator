@@ -7,5 +7,5 @@ type TestPayload struct {
 
 var GlobalTestPayload TestPayload = TestPayload{
 	Prompt:      "smile",
-	Suggestions: "say cheese!",
+	Suggestions: "say cheese! (updated)",
 }
