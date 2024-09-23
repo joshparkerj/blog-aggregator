@@ -20,7 +20,8 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/smiley", func(sponse http.ResponseWriter, quest *http.Request) {
-		sponse.Write([]byte("say cheese!"))
+		// sponse.Write([]byte("say cheese!"))
+		respondWithJson(sponse, 200, GlobalTestPayload)
 	})
 
 	server := http.Server{
