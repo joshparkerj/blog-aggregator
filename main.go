@@ -18,18 +18,28 @@ var commands Commands
 
 func main() {
 	godotenv.Load()
-	dbURL := os.Getenv("CONN")
 	configuration, err := config.Read()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	state.Configuration = &configuration
+	db, err := sql.Open("postgres", state.Configuration.DbUrl)
+
+	state.DB = database.New(db)
+
+	if err != nil {
+		fmt.Println(err)
+
+		log.Fatal("database didn't open")
+	}
 
 	commands.Commands = make(map[string]func(*State, Command) error)
 
 	// register a handler function for the login command
+	// TODO: see about registering these commands elsewhere
 	commands.Register("login", Login)
+	commands.Register("register", Register)
 	args := os.Args
 	if len(args) < 2 {
 		log.Fatal("not enough arguments!")
@@ -44,16 +54,6 @@ func main() {
 
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	db, err := sql.Open("postgres", dbURL)
-
-	state.DB = database.New(db)
-
-	if err != nil {
-		fmt.Println(err)
-
-		log.Fatal("database didn't open")
 	}
 
 	mux := http.NewServeMux()
