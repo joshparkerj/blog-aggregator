@@ -14,35 +14,38 @@ import (
 )
 
 var apiConfig ApiConfig
+var state State
+var commands Commands
 
 func main() {
 	godotenv.Load()
-	port := os.Getenv("PORT")
 	dbURL := os.Getenv("CONN")
 	configuration, err := config.Read()
 	if err != nil {
-		// handle this if it becomes a problem
 		log.Fatal(err)
 	}
 
-	// note that this method will also write the updated config to disc
-	err = configuration.SetUser("josh")
+	state.configuration = &configuration
+
+	commands.Commands = make(map[string]func(*State, Command) error)
+
+	// register a handler function for the login command
+	commands.Register("login", Login)
+	args := os.Args
+	if len(args) < 2 {
+		log.Fatal("not enough arguments!")
+	}
+
+	commandName := args[1]
+	args = args[2:]
+	err = commands.Run(&state, Command{
+		Name: commandName,
+		Args: args,
+	})
+
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	configuration, err = config.Read()
-	if err != nil {
-		// handle this if it becomes a problem
-		log.Fatal(err)
-	}
-
-	fmt.Println(configuration)
-	fmt.Printf("db connection string: %v --- user name: %v\n", configuration.DbUrl, configuration.CurrentUserName)
-
-	fmt.Println("this is the main. Welcome!")
-	fmt.Println("now I can edit the file yay!")
-	fmt.Println(port)
 
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
@@ -54,7 +57,6 @@ func main() {
 	apiConfig = ApiConfig{
 		DB: database.New(db),
 	}
-	fmt.Println(db)
 
 	mux := http.NewServeMux()
 
@@ -85,11 +87,4 @@ func main() {
 			fmt.Println(err)
 		}
 	})
-
-	server := http.Server{
-		Handler: mux,
-		Addr:    fmt.Sprintf(":%v", port),
-	}
-
-	server.ListenAndServe()
 }
