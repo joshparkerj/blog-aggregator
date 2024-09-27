@@ -23,7 +23,7 @@ func Register(s *State, cmd Command) (err error) {
 		Name:      cmd.Args[0],
 	}
 
-	user, err := state.DB.CreateUser(context.Background(), createUserParams)
+	user, err := s.DB.CreateUser(context.Background(), createUserParams)
 	if err != nil {
 		err = fmt.Errorf("could not create a new user! (%v)", err)
 		return

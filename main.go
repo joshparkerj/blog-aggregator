@@ -40,6 +40,9 @@ func main() {
 	// TODO: see about registering these commands elsewhere
 	commands.Register("login", Login)
 	commands.Register("register", Register)
+	commands.Register("reset", Reset)
+	commands.Register("users", Users)
+	commands.Register("agg", Agg)
 	args := os.Args
 	if len(args) < 2 {
 		log.Fatal("not enough arguments!")
