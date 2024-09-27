@@ -29,6 +29,6 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 		UpdatedAt: time.Now(),
 		Name:      payload.Name,
 	}
-	config.DB.CreateUser(context.TODO(), createUserParams)
+	apiConfig.DB.CreateUser(context.TODO(), createUserParams)
 	respondWithJson(w, 201, payload)
 }

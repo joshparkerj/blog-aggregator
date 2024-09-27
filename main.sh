@@ -1,2 +1,2 @@
 #! /bin/bash
-go run .
+gofmt -w . && staticcheck && gotags ./*.go > tags && go test ./... && go run .
