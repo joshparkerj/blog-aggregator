@@ -11,7 +11,7 @@ func Login(s *State, cmd Command) (err error) {
 		return
 	}
 
-	err = s.configuration.SetUser(cmd.Args[0])
+	err = s.Configuration.SetUser(cmd.Args[0])
 	if err != nil {
 		return
 	}

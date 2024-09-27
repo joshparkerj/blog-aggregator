@@ -13,7 +13,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var apiConfig ApiConfig
 var state State
 var commands Commands
 
@@ -25,7 +24,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	state.configuration = &configuration
+	state.Configuration = &configuration
 
 	commands.Commands = make(map[string]func(*State, Command) error)
 
@@ -48,14 +47,13 @@ func main() {
 	}
 
 	db, err := sql.Open("postgres", dbURL)
+
+	state.DB = database.New(db)
+
 	if err != nil {
 		fmt.Println(err)
 
 		log.Fatal("database didn't open")
-	}
-
-	apiConfig = ApiConfig{
-		DB: database.New(db),
 	}
 
 	mux := http.NewServeMux()

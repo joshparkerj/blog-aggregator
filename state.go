@@ -2,8 +2,10 @@ package main
 
 import (
 	"github.com/joshparkerj/blog-aggregator/internal/config"
+	"github.com/joshparkerj/blog-aggregator/internal/database"
 )
 
 type State struct {
-	configuration *config.Config
+	Configuration *config.Config
+	DB            *database.Queries
 }
