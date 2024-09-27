@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
 )
@@ -11,7 +12,13 @@ func Login(s *State, cmd Command) (err error) {
 		return
 	}
 
-	err = s.Configuration.SetUser(cmd.Args[0])
+	user, err := s.DB.GetUser(context.Background(), cmd.Args[0])
+	if err != nil {
+		err = fmt.Errorf("could not get user (%v)", err)
+		return
+	}
+
+	err = s.Configuration.SetUser(user.Name)
 	if err != nil {
 		return
 	}

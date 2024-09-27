@@ -25,6 +25,7 @@ func Register(s *State, cmd Command) (err error) {
 
 	user, err := state.DB.CreateUser(context.Background(), createUserParams)
 	if err != nil {
+		err = fmt.Errorf("could not create a new user! (%v)", err)
 		return
 	}
 
@@ -33,7 +34,7 @@ func Register(s *State, cmd Command) (err error) {
 		return
 	}
 
-	fmt.Printf("User was created!\nUsername: %v\nUser id: %v\n User created at: %v User updated at: %v\n",
+	fmt.Printf("User was created!\nUsername: %v\nUser id: %v\n User created at: %v\n User updated at: %v\n",
 		user.Name,
 		user.ID,
 		user.CreatedAt,
