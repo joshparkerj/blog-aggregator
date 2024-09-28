@@ -1,9 +1,8 @@
 -- name: CreateFeedFollow :one
 WITH new_feed_follow AS (
 INSERT INTO feed_follows (id, created_at, updated_at, user_id, feed_id)
-SELECT $1, $2, $3, users.id as user_id, feeds.id as feed_id FROM users, feeds
--- seems stupid. try optimizing later.
-WHERE users.name = $4 AND feeds.url = $5
+SELECT $1, $2, $3, $4, feeds.id as feed_id FROM feeds
+WHERE feeds.url = $5
 
 RETURNING *
 ) SELECT

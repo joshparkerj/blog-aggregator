@@ -10,14 +10,9 @@ import (
 	"github.com/joshparkerj/blog-aggregator/internal/database"
 )
 
-func Addfeed(s *State, cmd Command) (err error) {
+func Addfeed(s *State, cmd Command, user database.User) (err error) {
 	if len(cmd.Args) != 2 {
 		err = errors.New("addfeed command requires two args (name and url)")
-		return
-	}
-
-	user, err := s.DB.GetUser(context.Background(), s.Configuration.CurrentUserName)
-	if err != nil {
 		return
 	}
 
@@ -40,7 +35,7 @@ func Addfeed(s *State, cmd Command) (err error) {
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 		Url:       cmd.Args[1],
-		Name:      s.Configuration.CurrentUserName,
+		UserID:    user.ID,
 	}
 
 	s.DB.CreateFeedFollow(context.Background(), createFeedFollowParams)

@@ -9,16 +9,14 @@ import (
 	"github.com/joshparkerj/blog-aggregator/internal/database"
 )
 
-func Follow(s *State, cmd Command) (err error) {
+func Follow(s *State, cmd Command, user database.User) (err error) {
 	feedUrl := cmd.Args[0]
-	userName := s.Configuration.CurrentUserName
-	fmt.Println(userName)
 	params := database.CreateFeedFollowParams{
 		ID:        uuid.New(),
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 		Url:       feedUrl,
-		Name:      userName,
+		UserID:    user.ID,
 	}
 
 	followFeed, err := s.DB.CreateFeedFollow(context.Background(), params)

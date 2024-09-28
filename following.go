@@ -3,10 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+
+	"github.com/joshparkerj/blog-aggregator/internal/database"
 )
 
-func Following(s *State, cmd Command) (err error) {
-	feeds, err := s.DB.GetFeedFollowsForUser(context.Background(), s.Configuration.CurrentUserName)
+func Following(s *State, cmd Command, user database.User) (err error) {
+	feeds, err := s.DB.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		return
 	}

@@ -43,10 +43,10 @@ func main() {
 	commands.Register("reset", Reset)
 	commands.Register("users", Users)
 	commands.Register("agg", Agg)
-	commands.Register("addfeed", Addfeed)
+	commands.Register("addfeed", MiddlewareLoggedIn(Addfeed))
 	commands.Register("feeds", Feeds)
-	commands.Register("follow", Follow)
-	commands.Register("following", Following)
+	commands.Register("follow", MiddlewareLoggedIn(Follow))
+	commands.Register("following", MiddlewareLoggedIn(Following))
 	args := os.Args
 	if len(args) < 2 {
 		log.Fatal("not enough arguments!")
