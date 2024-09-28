@@ -12,6 +12,10 @@ import (
 
 func Addfeed(s *State, cmd Command, user database.User) (err error) {
 	if len(cmd.Args) != 2 {
+		for _, arg := range cmd.Args {
+			fmt.Printf("got arg %v\n", arg)
+		}
+
 		err = errors.New("addfeed command requires two args (name and url)")
 		return
 	}

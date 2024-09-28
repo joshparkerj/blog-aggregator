@@ -47,7 +47,10 @@ func main() {
 	commands.Register("feeds", Feeds)
 	commands.Register("follow", MiddlewareLoggedIn(Follow))
 	commands.Register("following", MiddlewareLoggedIn(Following))
+	commands.Register("unfollow", MiddlewareLoggedIn(Unfollow))
 	args := os.Args
+	// BUG: the args get split on spaces even when they are double-quoted
+
 	if len(args) < 2 {
 		log.Fatal("not enough arguments!")
 	}
