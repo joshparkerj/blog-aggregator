@@ -35,6 +35,16 @@ func Addfeed(s *State, cmd Command) (err error) {
 		return
 	}
 
+	createFeedFollowParams := database.CreateFeedFollowParams{
+		ID:        uuid.New(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+		Url:       cmd.Args[1],
+		Name:      s.Configuration.CurrentUserName,
+	}
+
+	s.DB.CreateFeedFollow(context.Background(), createFeedFollowParams)
+
 	fmt.Printf("feed name: %v\nfeed id: %v\n feed created at: %v\nfeed updated at: %v\nfeed added by user with id: %v (user name is %v)\nfeed url: %v\n", feed.Name, feed.ID, feed.CreatedAt, feed.UpdatedAt, feed.UserID, user.Name, feed.Url)
 
 	return

@@ -45,6 +45,8 @@ func main() {
 	commands.Register("agg", Agg)
 	commands.Register("addfeed", Addfeed)
 	commands.Register("feeds", Feeds)
+	commands.Register("follow", Follow)
+	commands.Register("following", Following)
 	args := os.Args
 	if len(args) < 2 {
 		log.Fatal("not enough arguments!")
