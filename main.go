@@ -48,6 +48,7 @@ func main() {
 	commands.Register("follow", MiddlewareLoggedIn(Follow))
 	commands.Register("following", MiddlewareLoggedIn(Following))
 	commands.Register("unfollow", MiddlewareLoggedIn(Unfollow))
+	commands.Register("browse", MiddlewareLoggedIn(Browse))
 	args := os.Args
 	// BUG: the args get split on spaces even when they are double-quoted
 

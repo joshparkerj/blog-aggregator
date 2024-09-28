@@ -23,6 +23,10 @@ func Agg(s *State, cmd Command) (err error) {
 	for {
 		err = ScrapeFeeds(s)
 		if err != nil {
+			if err.Error() == "sql: no rows in result set" {
+				fmt.Println("ERROR: try adding some feeds to aggregate first")
+			}
+
 			return
 		}
 
